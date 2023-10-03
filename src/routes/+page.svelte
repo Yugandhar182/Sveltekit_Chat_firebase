@@ -12,7 +12,13 @@
 	let messages = [];
 	let onlineUsers = [];
 	let joinedChat = false;
-	
+    let currentDate = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+         });
+
+
    
   
 	// Firebase Realtime Database references
@@ -67,25 +73,7 @@
 	  });
 	});
   
-   
-   
-  
-	// Function to clear all messages from the chat
-	function clearData() {
-	  // Remove all messages
-	  const messagesRef = ref(db, 'messages');
-	  remove(messagesRef);
-	}
-  
-	function showUserMessages(selectedUserName) {
-	  fullName = selectedUserName;
-	  // Filter the messages based on the selected user's name
-	  messages = messages.filter(
-		(messageData) => messageData.fullName === fullName
-	  );
-	}
-	
-	let messageContainer; 
+   let messageContainer; 
   
 	function scrollToBottom() {
 	  if (messageContainer) {
@@ -116,16 +104,19 @@
   
           <div class="main-container">
              <div class="message-container" bind:this={messageContainer}>
+               
+                <div class="current-date">
+                    <p> {currentDate}</p>
+                  </div>
+                  <hr>
 				{#each messages as messageData}
                 <div class="chat-message {messageData.fullName === fullName ? 'sender' : 'receiver'}">
-                {#if messageData.fullName !== fullName}
-               <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(messageData.fullName)}&background=random`} alt="{messageData.fullName}" class="receiver-avatar" />
-               {/if}
+               
    
-              <span   class="chat-sender" >{messageData.fullName}:</span>
+              <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
    
              <span style="color:blue;font-weight:bold" class="chat-content">{messageData.message}</span>
-             <span class="chat-timestamp">{formatDate(messageData.timestamp)}</span>
+             <span class="chat-timestamp" style="color:black;margin-top:30px">{formatDate(messageData.timestamp)}</span>
              </div>
             {/each}
 
@@ -159,6 +150,13 @@
 	  
   
   <style>
+    .current-date {
+  text-align: center;
+  margin-top: 10px;
+  color: #df0c7d; /* Adjust the color to your preference */
+  font-size: 20px; /* Adjust the font size to your preference */
+  font-weight: bold;
+}
  
  .sender-avatar {
     width: 30px;
@@ -200,7 +198,7 @@
 
   .chat-message.sender {
     color: black;
-    background-color: #e0e0e0; /* Add a background color to sender messages */
+    background-color: #ccc9eb; /* Add a background color to sender messages */
     margin-left: auto;
   }
 
@@ -218,7 +216,7 @@ margin-top: -45px;
 
 }
 .onlineusers-container{
-    width: 270px;
+    width: 300px;
     height: 650px;
     border: 1px solid  rgb(76, 21, 227); /* Add a border for styling */
     margin-top:-650px;
@@ -249,11 +247,11 @@ margin-top: -45px;
       border: 1px;
 	}
   .main-container{
-	  margin-left: 110px;
+	  margin-left:10px;
 	  margin-top:10px;
-   width: 1315px;
+   width: 1520px;
    height: 720px;
-	
+
     border: 2px solid  white; /* Add a border for styling */
 
 	}
@@ -261,10 +259,10 @@ margin-top: -45px;
 	 
 	   border-radius: 5px;
 	   margin-top: 10px;
-		margin-left:299px;
+		margin-left:330px;
 		height: 650px;
 		border: 0px solid #ccc;
-	  width:985px;
+	  width:1185px;
 	  border: 1px solid  rgb(13, 212, 79); /* Add a border for styling */
 	  justify-content: center;
 	
@@ -277,7 +275,7 @@ margin-top: -45px;
 	  padding: 10px;
 	  display: flex;
 	  align-items: center;
-	  width: 480px;
+	  width: 460px;
 	  margin-left:20px;
 	  height:70px;
 	 
