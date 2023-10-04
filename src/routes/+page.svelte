@@ -57,17 +57,23 @@ function addOnlineUser() {
     if (!userExists) {
       push(onlineUsersRef, { fullName }).then(() => {
         joinedChat = true; // Set the flag to indicate user joined the chat
+        // Save the user's name in local storage
+        localStorage.setItem('fullName', fullName);
       });
     } else {
       joinedChat = true; // Set the flag to indicate user joined the chat
-	  console.log("user already exsits");
+      console.log("user already exists");
+      // Save the user's name in local storage
+      localStorage.setItem('fullName', fullName);
     }
   }
 }
 
+
 function logout() {
   fullName = ''; // Clear the user's name
   joinedChat = false; // Set joinedChat to false to return to the join chat screen
+  localStorage.removeItem('fullName', fullName);
 }
 
   
@@ -94,7 +100,23 @@ function logout() {
   onMount(scrollToBottom);
   
   
+  onMount(() => {
+  // Check for a user session in localStorage
+  const storedFullName = localStorage.getItem('fullName');
   
+  if (storedFullName) {
+    fullName = storedFullName;
+    joinedChat = true;
+    // Fetch the chat messages and online users from localStorage if needed
+    // Example: messages = JSON.parse(localStorage.getItem('messages')) || [];
+    // Example: onlineUsers = JSON.parse(localStorage.getItem('onlineUsers')) || [];
+  } else {
+    // User has not joined the chat, so they should see the join chat screen
+    joinedChat = false;
+  }
+  });
+
+
   
   </script>
 	
@@ -133,7 +155,7 @@ function logout() {
 
             </div>
             <div class="onlineusers-container">
-                <h1 style="color: green; margin-left:40px;font-weight: bold;font-size:30px">Online users</h1>
+                <h1 style="color: green; margin-left:40px;font-weight: bold;font-size:30px;">Online users</h1>
                 
 
                <hr>
@@ -148,9 +170,7 @@ function logout() {
           
     <div class="profile">
 		<Button on:click={logout} style="margin-left:1000px; margin-top:8px ; background-color:red">Logout</Button>
-
-	
-		<h1 style="margin-left:60px; margin-top:-30px;font-weight:bold; font-size:20px ;color:blue;" >{fullName}</h1>
+        <h1 style="margin-left:60px; margin-top:-30px;font-weight:bold; font-size:20px ;color:white;" >{fullName}</h1>
 		<img src="https://as2.ftcdn.net/v2/jpg/01/13/99/57/1000_F_113995750_dAEGvjqxnsYD6asKjeDWJoVoSqjFvdGO.jpg"alt="{fullName}"  style="margin-top:-30px ; width:30px; height:30px;margin-left:20px" />
 	
 	</div>
@@ -183,7 +203,7 @@ function logout() {
 	margin-top: -655px;
 	margin-left: 330px;
 	border: 1px solid  rgb(113, 161, 243); /* Add a border for styling */
-	
+	background-color: rgb(4, 172, 49);
 	border-radius: 5px;
   }
   .online-avatar {
@@ -218,7 +238,7 @@ margin-top: -45px;
 .onlineusers-container{
     width: 300px;
     height: 650px;
-    border: 1px solid  rgb(76, 21, 227); /* Add a border for styling */
+    border: 1px solid  rgb(87, 245, 98); /* Add a border for styling */
     margin-top:-650px;
     overflow-y: auto; 
   position: relative;
@@ -260,7 +280,7 @@ margin-top: -45px;
 	   border-radius: 5px;
 	   margin-top: 60px;
 		margin-left:330px;
-		height: 600px;
+		height: 605px;
 		border: 0px solid #ccc;
 	  width:1185px;
 	  border: 1px solid  rgb(13, 212, 79); /* Add a border for styling */
