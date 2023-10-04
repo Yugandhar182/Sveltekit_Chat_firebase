@@ -1,9 +1,10 @@
 <script>
-    import { onMount } from 'svelte';
-    import { getDatabase, ref, push, onValue, remove } from 'firebase/database';
-    import firebaseApp from './firebase.js';
-    import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
-
+	import { onMount } from 'svelte';
+	import { getDatabase, ref, push, onValue, remove } from 'firebase/database';
+        import firebaseApp from './firebase.js';
+        import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
+        import { Popover } from 'flowbite-svelte';
+	import { writable } from 'svelte/store';
 
 	
   
@@ -12,12 +13,11 @@
 	let messages = [];
 	let onlineUsers = [];
 	let joinedChat = false;
-        let currentDate = new Date().toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-         });
-
+	let currentDate = new Date().toLocaleDateString('en-US', {
+           year: 'numeric',
+           month: 'long',
+           day: 'numeric',
+        });
 
    
   
@@ -50,15 +50,22 @@
 	return formattedTime;
   }
   
-	// Function to add a new online user
-	function addOnlineUser() {
-	  if (fullName.trim() !== '') {
-		push(onlineUsersRef, { fullName }).then(() => {
-		  joinedChat = true; // Set the flag to indicate user joined the chat
-		});
-	  }
-	}
-  
+// Function to add a new online user
+function addOnlineUser() {
+  if (fullName.trim() !== '') {
+    const userExists = onlineUsers.some((user) => user.fullName === fullName);
+    if (!userExists) {
+      push(onlineUsersRef, { fullName }).then(() => {
+        joinedChat = true; // Set the flag to indicate user joined the chat
+      });
+    } else {
+      joinedChat = true; // Set the flag to indicate user joined the chat
+	  console.log("user already exsits");
+    }
+  }
+}
+
+
   
   
 	// Listen for new messages and online users
@@ -101,26 +108,34 @@
             </div>
 
 		  {:else}
-  
+
           <div class="main-container">
              <div class="message-container" bind:this={messageContainer}>
                
                 <div class="current-date">
                     <p> {currentDate}</p>
+                  
                   </div>
+              
                   <hr>
-	      {#each messages as messageData}
+				{#each messages as messageData}
                 <div class="chat-message {messageData.fullName === fullName ? 'sender' : 'receiver'}">
-                <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
+               
+   
+              <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
    
              <span style="color:blue;font-weight:bold" class="chat-content">{messageData.message}</span>
              <span class="chat-timestamp" style="color:black;margin-top:30px">{formatDate(messageData.timestamp)}</span>
+
+            
              </div>
             {/each}
 
             </div>
             <div class="onlineusers-container">
                 <h1 style="color: green; margin-left:40px;font-weight: bold;font-size:30px">Online users</h1>
+                
+
                <hr>
                 {#each onlineUsers as user}
                 <div class="card-body" style="width: 220px; overflow-x: auto; overflow-y: hidden; height: 40px; margin-left:10px; margin-top:20px">
@@ -142,12 +157,17 @@
         <div class="button-container">
             <Button   on:click={sendMessage}  >Send</Button>
           </div>
+
+          
+       
         {/if}
 
 
 	  
   
   <style>
+  
+
     .current-date {
   text-align: center;
   margin-top: 10px;
@@ -156,33 +176,10 @@
   font-weight: bold;
 }
  
- .sender-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-    background-color: blueviolet;
-    float: right; /* Align sender avatars to the right */
-  }
 
-  .receiver-avatar {
-    width: 30px;
-    height: 30px;
-    
-    border-radius: 50%;
-    margin-right: 10px;
-    background-color: blueviolet;
-    float: right; /* Align receiver avatars to the left */
-  }
-  .sending-avatar {
-    width: 30px;
-    height: 30px;
-    
-    border-radius: 50%;
-    margin-right: 10px;
-    background-color: blueviolet;
-    float: right; /* Align receiver avatars to the left */
-  }
+ 
+  
+  
   
   .online-avatar {
     width: 30px;
@@ -276,7 +273,7 @@ margin-top: -45px;
 	  width: 460px;
 	  margin-left:20px;
 	  height:70px;
-	 
+    
 	}
   
 	.chat-sender {
