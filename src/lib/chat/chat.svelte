@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getDatabase, ref, push, onValue, remove } from 'firebase/database';
-    import firebaseApp from './firebase.js';
-    import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
+        import firebaseApp from './firebase.js';
+        import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
   
 	
   
@@ -12,10 +12,10 @@
 	let onlineUsers = [];
 	let joinedChat = false;
 	let currentDate = new Date().toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-});
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+         });
 
    
   
@@ -119,81 +119,56 @@ function logout() {
   </script>
 	
 	  {#if !joinedChat}
-
-          <div>
+           <div>
             <Card img="https://images.unsplash.com/photo-1636751364472-12bfad09b451?" horizontal class="mb-4" style="width:1000px;margin-left:400px; margin-top:100px">
                 <h1 style="color: red; font-weight:bold;font-size:20px">Enter your name to join the Chat</h1>
-               
-                  <Input  type="text" id="fullName" bind:value={fullName} placeholder="Enter your name"  style="width:350px;height:40px; margin-top:20px;border: 1px solid  blue;font-weight:bold" />
-                  <Button on:click={addOnlineUser} style="color:white;background-color:blue;margin-top:20px">Join Chat</Button>
-                
+                <Input  type="text" id="fullName" bind:value={fullName} placeholder="Enter your name"  style="width:350px;height:40px; margin-top:20px;border: 1px solid  blue;font-weight:bold" />
+                 <Button on:click={addOnlineUser} style="color:white;background-color:blue;margin-top:20px">Join Chat</Button>
             </Card>
             </div>
 
-		  {:else}
-
+           {:else}
           <div class="main-container">
-             <div class="message-container" bind:this={messageContainer}>
-               
-             
-              
-                  <hr>
-				{#each messages as messageData}
-                <div class="chat-message {messageData.fullName === fullName ? 'sender' : 'receiver'}">
-               
-   
-              <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
-   
-             <span style="color:blue;font-weight:bold" class="chat-content">{messageData.message}</span>
-             <span class="chat-timestamp" style="color:black;margin-top:30px">{formatDate(messageData.timestamp)}</span>
-
-            
-             </div>
-            {/each}
-
-            </div>
+          <div class="message-container" bind:this={messageContainer}>
+          <hr>
+		{#each messages as messageData}
+         <div class="chat-message {messageData.fullName === fullName ? 'sender' : 'receiver'}">
+                <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
+                <span style="color:blue;font-weight:bold" class="chat-content">{messageData.message}</span>
+                <span class="chat-timestamp" style="color:black;margin-top:30px">{formatDate(messageData.timestamp)}</span>
+          </div>
+          {/each}
+          </div>
             <div class="onlineusers-container">
                 <h1 style="color: green; margin-left:40px;font-weight: bold;font-size:30px;">Online users</h1>
-                
-
-               <hr>
+                <hr>
                 {#each onlineUsers as user}
                 <div class="card-body" style="width: 220px; overflow-x: auto; overflow-y: hidden; height: 40px; margin-left:10px; margin-top:20px">
-                   
-                  <p style="color: black;margin-left:40px;" class="username"  >{user.fullName}</p>
-                  <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=random`} alt="{user.fullName}" class="online-avatar" />
+                <p style="color: black;margin-left:40px;" class="username"  >{user.fullName}</p>
+                <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=random`} alt="{user.fullName}" class="online-avatar" />
                 </div>
               {/each}
             </div>
           
     <div class="profile">
 		<Button on:click={logout} style="margin-left:1000px; margin-top:8px ; background-color:red">Logout</Button>
-        <h1 style="margin-left:60px; margin-top:-30px;font-weight:bold; font-size:20px ;color:white;" >{fullName}</h1>
+                <h1 style="margin-left:60px; margin-top:-30px;font-weight:bold; font-size:20px ;color:white;" >{fullName}</h1>
 		<img src="https://as2.ftcdn.net/v2/jpg/01/13/99/57/1000_F_113995750_dAEGvjqxnsYD6asKjeDWJoVoSqjFvdGO.jpg"alt="{fullName}"  style="margin-top:-30px ; width:30px; height:30px;margin-left:20px" />
-	
-	</div>
-
-          </div>
+  </div>
+  </div>
           <div class="input-container">
-
-            <Input  bind:value={message} type="text"  placeholder="Write messages" style=" width:900px; height:43px; color:blue; border: 1px solid  black ; font-weight:bold" />
+         <Input  bind:value={message} type="text"  placeholder="Write messages" style=" width:900px; height:43px; color:blue; border: 1px solid  black ; font-weight:bold" />
 
         </div>
         <div class="button-container">
             <Button   on:click={sendMessage}  >Send</Button>
-          </div>
-
-          
-       
-        {/if}
+       </div>
+ {/if}
 
 
 	  
   
   <style>
-  
- 
-
   .profile{
 
 	width: 1185px;
@@ -243,50 +218,40 @@ margin-top: -45px;
   margin-left: 10px;
  
 }
-  
- 
-  
-	.input-container  {
+  .input-container  {
 
     margin-top: -48px;
     height: 48px;
     width: 980px;
     margin-left: 410px;
-
-  
-	}
-   
+}
+   .button-container{
 	
-	.button-container{
-	
-	  margin-bottom:1px;
+      margin-bottom:1px;
       background-color: blue;
       margin-left: 1320px;
       border: 1px;
 	}
   .main-container{
-	  margin-left:10px;
-	  margin-top:10px;
-   width: 1520px;
-   height: 720px;
-
-    border: 2px solid  white; /* Add a border for styling */
-
-	}
+     margin-left:10px;
+     margin-top:10px;
+     width: 1520px;
+     height: 720px;
+     border: 2px solid  white; /* Add a border for styling */
+}
 	.message-container {
-	 
 	   border-radius: 5px;
 	   margin-top: 60px;
-		margin-left:330px;
-		height: 605px;
-		border: 0px solid #ccc;
+	   margin-left:330px;
+	   height: 605px;
+	   border: 0px solid #ccc;
 	  width:1185px;
 	  border: 1px solid  rgb(13, 212, 79); /* Add a border for styling */
 	  justify-content: center;
-	
 	  overflow: auto;
 	  }
-  .chat-message {
+
+   .chat-message {
 	  margin: 5px;
 	  border: 1px solid #ccc;
 	  border-radius: 5px;
