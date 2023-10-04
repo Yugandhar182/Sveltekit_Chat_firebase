@@ -1,9 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
 	import { getDatabase, ref, push, onValue, remove } from 'firebase/database';
-        import firebaseApp from './firebase.js';
-        import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
-        import { Popover } from 'flowbite-svelte';
+    import firebaseApp from './firebase.js';
+    import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
+    import { Popover } from 'flowbite-svelte';
 	import { writable } from 'svelte/store';
 
 	
@@ -14,10 +14,10 @@
 	let onlineUsers = [];
 	let joinedChat = false;
 	let currentDate = new Date().toLocaleDateString('en-US', {
-           year: 'numeric',
-           month: 'long',
-           day: 'numeric',
-        });
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
 
    
   
@@ -65,6 +65,10 @@ function addOnlineUser() {
   }
 }
 
+function logout() {
+  fullName = ''; // Clear the user's name
+  joinedChat = false; // Set joinedChat to false to return to the join chat screen
+}
 
   
   
@@ -87,8 +91,7 @@ function addOnlineUser() {
 		messageContainer.scrollTop = messageContainer.scrollHeight;
 	  }
 	}
-  
-	onMount(scrollToBottom);
+  onMount(scrollToBottom);
   
   
   
@@ -112,10 +115,7 @@ function addOnlineUser() {
           <div class="main-container">
              <div class="message-container" bind:this={messageContainer}>
                
-                <div class="current-date">
-                    <p> {currentDate}</p>
-                  
-                  </div>
+             
               
                   <hr>
 				{#each messages as messageData}
@@ -146,7 +146,14 @@ function addOnlineUser() {
               {/each}
             </div>
           
-    
+    <div class="profile">
+		<Button on:click={logout} style="margin-left:1000px; margin-top:5px ; background-color:red">Logout</Button>
+
+	<div>
+		<h1 style="margin-left:40px; margin-top:-30px;font-weight:bold; font-size:20px;color:blue" >{fullName}</h1>
+		<img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=random`} alt="{fullName}"  style="margin-top:-30px ; width:30px; height:30px" />
+	</div>
+	</div>
 
           </div>
           <div class="input-container">
@@ -168,14 +175,17 @@ function addOnlineUser() {
   <style>
   
 
-    .current-date {
-  text-align: center;
-  margin-top: 10px;
-  color: #df0c7d; /* Adjust the color to your preference */
-  font-size: 20px; /* Adjust the font size to your preference */
-  font-weight: bold;
-}
- 
+  .profile{
+
+	width: 1185px;
+	height: 53px;
+	margin-top: -655px;
+	margin-left: 330px;
+	border: 1px solid  rgb(113, 161, 243); /* Add a border for styling */
+	
+	border-radius: 5px;
+  }
+  
 
  
   
@@ -253,9 +263,9 @@ margin-top: -45px;
 	.message-container {
 	 
 	   border-radius: 5px;
-	   margin-top: 10px;
+	   margin-top: 60px;
 		margin-left:330px;
-		height: 650px;
+		height: 600px;
 		border: 0px solid #ccc;
 	  width:1185px;
 	  border: 1px solid  rgb(13, 212, 79); /* Add a border for styling */
