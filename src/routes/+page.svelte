@@ -1,6 +1,6 @@
 <script>
-	import { onMount } from 'svelte';
-	import { getDatabase, ref, push, onValue, remove } from 'firebase/database';
+    import { onMount } from 'svelte';
+    import { getDatabase, ref, push, onValue, remove } from 'firebase/database';
     import firebaseApp from './firebase.js';
     import { Input, Label, Helper, Button, Card } from 'flowbite-svelte';
 
@@ -12,7 +12,7 @@
 	let messages = [];
 	let onlineUsers = [];
 	let joinedChat = false;
-    let currentDate = new Date().toLocaleDateString('en-US', {
+        let currentDate = new Date().toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -109,11 +109,9 @@
                     <p> {currentDate}</p>
                   </div>
                   <hr>
-				{#each messages as messageData}
+	      {#each messages as messageData}
                 <div class="chat-message {messageData.fullName === fullName ? 'sender' : 'receiver'}">
-               
-   
-              <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
+                <span   class="chat-sender" style="color:black" >{messageData.fullName}:</span>
    
              <span style="color:blue;font-weight:bold" class="chat-content">{messageData.message}</span>
              <span class="chat-timestamp" style="color:black;margin-top:30px">{formatDate(messageData.timestamp)}</span>
