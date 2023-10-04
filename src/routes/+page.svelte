@@ -140,19 +140,19 @@ function logout() {
                 {#each onlineUsers as user}
                 <div class="card-body" style="width: 220px; overflow-x: auto; overflow-y: hidden; height: 40px; margin-left:10px; margin-top:20px">
                    
-                  <p style="color: black;margin-left:40px" class="username"  >{user.fullName}</p>
+                  <p style="color: black;margin-left:40px;" class="username"  >{user.fullName}</p>
                   <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=random`} alt="{user.fullName}" class="online-avatar" />
                 </div>
               {/each}
             </div>
           
     <div class="profile">
-		<Button on:click={logout} style="margin-left:1000px; margin-top:5px ; background-color:red">Logout</Button>
+		<Button on:click={logout} style="margin-left:1000px; margin-top:8px ; background-color:red">Logout</Button>
 
-	<div>
-		<h1 style="margin-left:40px; margin-top:-30px;font-weight:bold; font-size:20px;color:blue" >{fullName}</h1>
-		<img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=random`} alt="{fullName}"  style="margin-top:-30px ; width:30px; height:30px" />
-	</div>
+	
+		<h1 style="margin-left:60px; margin-top:-30px;font-weight:bold; font-size:20px ;color:blue;" >{fullName}</h1>
+		<img src="https://as2.ftcdn.net/v2/jpg/01/13/99/57/1000_F_113995750_dAEGvjqxnsYD6asKjeDWJoVoSqjFvdGO.jpg"alt="{fullName}"  style="margin-top:-30px ; width:30px; height:30px;margin-left:20px" />
+	
 	</div>
 
           </div>
@@ -174,6 +174,7 @@ function logout() {
   
   <style>
   
+ 
 
   .profile{
 
@@ -185,12 +186,6 @@ function logout() {
 	
 	border-radius: 5px;
   }
-  
-
- 
-  
-  
-  
   .online-avatar {
     width: 30px;
     height: 30px;
